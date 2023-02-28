@@ -50,9 +50,13 @@ authorRouter.post("/", (req, res) => {
       (author) => author.email === newAuthor.email
     );
 
-    authorArray.push(newAuthor);
-    fs.writeFileSync(authorJSONPath, JSON.stringify(authorArray));
-    res.status(201).send({ id: newAuthor.id });
+    if (checkEmail === undefined) {
+      authorArray.push(newAuthor);
+      fs.writeFileSync(authorJSONPath, JSON.stringify(authorArray));
+      res.status(201).send({ id: newAuthor.id });
+    } else {
+      res.send("email id exists");
+    }
 
     // res.send({ message: "Hello!" });
   } catch (error) {
